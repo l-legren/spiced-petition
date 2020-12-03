@@ -1,0 +1,18 @@
+const spicedPg = require("spiced-pg");
+const db = spicedPg
+("postgres:postgres:postgres@localhost:5432/petition");
+
+// EDIT ABOVEEE!!!!!!!!!!!!!!! create db first!!!
+
+//spicedPg("whoAreWeTalkingTo:whichUserWillRunTheCommands:paswordForThatDbUser@PostgrePort/nameOfDataBase")
+
+module.exports.getSigner = () => {
+    return db.query(`SELECT * FROM signatures`);
+};
+
+module.exports.addSigner = (first, last, signature) => {
+    const q = `INSERT INTO signatures (first_name, last_name, signature_user) VALUES ($1, $2, $3)`;
+    const params = [first, last, signature];
+    
+    return db.query(q, params);
+};

@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: "Amatic SC", cursive;
+}
+
+#petition-image {
+    width: 600px;
+    height: 400px;
+}
