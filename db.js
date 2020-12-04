@@ -16,3 +16,11 @@ module.exports.addSigner = (first, last, signature) => {
     
     return db.query(q, params);
 };
+
+
+module.exports.dbCounter = () => {
+    const counter = `SELECT COUNT(*) FROM signatures`;
+    const results = db.query(counter);
+    console.log(results);
+    return results;
+};
