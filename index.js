@@ -54,27 +54,27 @@ app.get("/petition", (req, res) =>  {
 
 app.post("/petition", (req, res) => {
     // console.log("POST request was made!");
-    console.log("req.body: ", req.body);
+    // console.log("req.body: ", req.body);
     const { first, last, signature } = req.body;
-    addSigner(first, last, signature).then(() =>{
-        // console.log("It worked!");
-        req.session.signature = signature;
-        console.log(req.session);
+    addSigner(first, last, signature).then(({ rows }) =>{
+        req.session.id = rows[0].signature_user;
         res.redirect("/thanks");
     }).catch((err) => console.error("error in addSinger: ", err));
 });
 
 app.get("/thanks", (req, res) => {
     // console.log("Thanks for signing!");
-    const sign = req.session.signature;
+    const sign = req.session.id;
     dbCounter()
         .then(({ rows }) => {
             res.render("thanks", {
                 main: "layout",
                 counter: rows[0].count,
-                sign,                
+                sign,             
             });
-        }).catch((err) => console.log(err));     
+        }).catch((err) => {
+            console.log(err);
+        });     
 });
 
 app.get("/petition/signed", (req, res) => {

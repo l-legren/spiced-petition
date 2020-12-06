@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
 
 * { 
-    margin: 0;
+    margin: 5;
     padding: 0;
     box-sizing: border-box;
     font-family: "Amatic SC", cursive;
@@ -12,8 +12,51 @@
     height: 400px;
 }
 
-/* #sign {
-    width: 600px;
-    height: 200px;
-    background-color: pink;
-} */
+.container {
+    display:grid;
+    grid-template-columns: repeat(5, 20%);
+    grid-template-rows: repeat(5, 20%);
+}
+
+#petition-text {
+    grid-row: 1 / 2;
+    grid-column: 2 / span 3;
+}
+
+#petition-image {
+    grid-row: 2 / 4;
+    grid-column: 2 / span 3;
+}
+
+#name-form {
+    grid-row: 4 / 5;
+    grid-column: 2 / 5;
+    display: flex;
+}
+
+button {
+    width: 100px;
+    height: 30px;
+    background: pink;
+    color: blue;
+}
+
+#first, #last {
+    width: 150px;
+    height: 50px;
+    margin-bottom: 15px;
+}
+
+#input-and-button {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    grid-column: 2;
+}
+
+#canvas-container {
+    grid-row: 3;
+    margin-top: 10px;
+    margin-left: 50px;
+    border: 5px black solid;
+}
