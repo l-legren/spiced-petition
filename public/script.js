@@ -1,37 +1,38 @@
 
 const canvas = $("#canvas");
 var ctx = canvas[0].getContext("2d");
-var savedSignature;
+let moving = false;
+let dataURL;
 const signFile = $("#signature-file");
 
 console.log(canvas);
 
+const signing = (e) => {
+    if (!moving) return;
+    ctx.lineWidth = 2;
+    ctx.linecap = "round";
+    // console.log(canvas.offset().left, canvas.offset().top);
+    console.log(
+        e.clientX - canvas.offset().left,
+        e.clientY - canvas.offset().top
+    );
+    ctx.lineTo(
+        e.clientX - canvas.offset().left,
+        e.clientY - canvas.offset().top
+    );
+    ctx.stroke();
+    dataURL = canvas[0].toDataURL();
+    signFile.val(dataURL);
+    console.log(signFile);
+};
+
 canvas.on("mousedown", (e) => {
-
-    const canvasX = canvas.offset().left;
-    const canvasY = canvas.offset().top;
-    const currentX = e.pageX;
-    const currentY = e.pageY;
-
-    ctx.beginPath();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "black";
-
-    console.log(e.pageX + 50, e.pageY + 50);
-
-    ctx.moveTo(currentX - canvasX, currentY - canvasY);
-
-    canvas.on("mousemove", (moving) => {
-        console.log(moving.pageX);
-        ctx.lineTo(moving.pageX - canvasX, moving.pageY - canvasY);
-        // savedSignature = canvas.toDataURL();
-        // signFile.val(savedSignature);
-        // console.log(signFile);
-        ctx.stroke();
-    });
-
+    moving = true;
+    signing(e);
 });
-
 canvas.on("mouseup", () => {
-    canvas.unbind("mousemove");
+    moving = false;
+    ctx.beginPath();
 });
+
+canvas.on("mousemove", signing);
