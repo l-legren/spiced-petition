@@ -6,11 +6,15 @@
     <form method="POST" id="name-form">
         <input type="text" name="first" placeholder="First Name">
         <input type="text" name="last" placeholder="Last Name">
-        {{!-- <div class="container" id="canvas">
-            <canvas>
-            </canvas>
-        </div> --}}
-        {{!-- <h2 id="sign-here">SIGN HERE!</h2> --}}
+        <div class="container" id="canvas-container">
+            <input id="signature-file" type="hidden" name="signature">
+                <canvas id="canvas" style="border: 1px black solid; width: 400px; height: 200px"></canvas>
+            </input>
+        </div>
+        <h2 id="sign-here">SIGN HERE!</h2>
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <button type="submit">Submit</button>
     </form>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="./script.js"></script>
 </div>
