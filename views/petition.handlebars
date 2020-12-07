@@ -3,17 +3,17 @@
         I'm baby exercitation hammock pariatur, knausgaard franzen retro tumeric locavore organic asymmetrical aute messenger bag offal VHS YOLO.
     </h1>
     <img src="/images/my-image.jpg" alt="A random image" id="petition-image"></img>
-    <form method="POST" id="name-form">
-        <div class="container" id="input-and-button">
+    <form method="POST" id="signature-form">
+        {{!-- <div class="container" id="input-and-button">
             <input id="first" type="text" name="first" placeholder="First Name">
             <input id="last" type="text" name="last" placeholder="Last Name">
-            <button type="submit">SIGN HERE!</button>
-        </div>
+        </div> --}}
         <div class="container" id="canvas-container">
             <input id="signature-file" type="hidden" name="signature">
                 <canvas id="canvas" style="border: 1px black solid; width: 400px; height: 200px"></canvas>
             </input>
         </div>
+        <button type="submit">SIGN HERE!</button>
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
     </form>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

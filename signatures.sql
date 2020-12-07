@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS signatures;
+DROP TABLE IF EXISTS users;
+
 
  CREATE TABLE signatures (
      id SERIAL PRIMARY KEY,
@@ -7,5 +9,11 @@ DROP TABLE IF EXISTS signatures;
      signature_user VARCHAR CHECK (signature_user != '')
  );
 
- INSERT INTO signatures (first_name, last_name, signature_user) VALUES ('Max', 'Mustermann', 'blabla');
---  INSERT INTO signatures (firstName, lastName, signatureUser) VALUES ('Berlin', 'loquesea', 'cutro');
+  CREATE TABLE users(
+      id SERIAL PRIMARY KEY,
+      first VARCHAR(255) NOT NULL,
+      last VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL UNIQUE,
+      password VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );

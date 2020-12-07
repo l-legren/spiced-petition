@@ -2,15 +2,15 @@ const express = require("express");
 const app = express();
 const hb = require("express-handlebars");
 const csurf = require("csurf");
-const { getSigner, addSigner, dbCounter } = require("./db.js");
+const { getSigner, addSigner, dbCounter, addSignUp } = require("./db.js");
 const secrets = require("./secrets");
 const cookieSession = require("cookie-session");
+const { hash, compare } = require("./bc.js");
 
 // this configures express to use express-handlebars as the template engine
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
-// Serve all static files
 app.use(
     cookieSession({
         secret: secrets.cookieSession,
@@ -32,6 +32,7 @@ app.use((req, res, next) => {
     next();
 });
 
+// Serve all static files
 app.use(express.static("./public"));
 
 app.use((req, res, next) => {
@@ -94,6 +95,43 @@ app.get("/petition/signed", (req, res) => {
             });
         })
         .catch((err) => console.error(err));
+});
+
+
+
+app.get("/register", (req, res) => {
+    res.render("register", {
+        layout: "main",
+    });
+});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+
+app.post("/register", (req, res) => {
+    // console.log(req.body);
+    const { first, last, email, password } = req.body;
+    hash(password).then((hash)=> {
+        // console.log(hash);
+        return addSignUp(first, last, email, hash)
+            .then(
+                (result) => {
+                    // console.log(result);
+                    res.redirect("/petition");
+                }
+            ).catch((err) => console.log(err));
+    }).catch(err => console.log(err));
+});
+
+app.get("/login", (req, res) => {
+    res.render("login", {
+        layout: "main"
+    });
+});
+
+app.post("/login", (req, res) => {
+    console.log(req.body);
+});
+
+app.get("*", (req, res) => {
+    res.redirect("/");
 });
 
 app.listen(8080, () => console.log("Server listening on 8080..."));
