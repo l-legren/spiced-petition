@@ -129,8 +129,10 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
+    let errorLoging = req.session.error;
     res.render("login", {
-        layout: "main"
+        layout: "main",
+        errorLoging
     });
 });
 
@@ -139,12 +141,22 @@ app.post("/login", (req, res) => {
     const { email, password } = req.body;
     getPassword(email).then(({ rows }) => {
         const hash = rows[0].password;
-        compare(password, hash).then((booleanResult) => {
-            if (booleanResult) {
-                req.session.userId = rows[0].id;
-                console.log(req.session);
-            }
-        });
+        compare(password, hash)
+            .then((booleanResult) => {
+                if (booleanResult) {
+                    req.session.error = null;
+                    req.session.userId = rows[0].id;
+                    console.log(req.session);
+                    // CHECK IF USER HAVE ALREADY SIGNED!!! if so redirect to THANKS, otherwise to PETITION
+                    res.redirect("/petition");
+                }
+            // REVIEW THIS PART. IT'S NOT WORKING!!!!
+            })
+            .catch(({ detail }) => {
+                req.session.error = detail;
+                res.redirect("/login");
+            });
+        // REVIEW THIS PART. IT'S NOT WORKING!!!!
     });
 });
 

@@ -5,4 +5,7 @@
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <button id="submit-login" type="submit">LOG IN</button>
     </form>
+    {{#if errorLogging}}
+    <p id="fail-sign-up" style="color: red">Mail address and password don't seem to match, please try again.</p>
+    {{/if}}
 </div>
