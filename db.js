@@ -6,9 +6,7 @@ const db = spicedPg
 
 //spicedPg("whoAreWeTalkingTo:whichUserWillRunTheCommands:paswordForThatDbUser@PostgrePort/nameOfDataBase")
 
-module.exports.getSigner = () => {
-    return db.query(`SELECT * FROM signatures`);
-};
+// INSERTING INTO DATABASE
 
 module.exports.addSigner = (first, last, signature) => {
     const q = 
@@ -30,8 +28,33 @@ module.exports.addSignUp = (first, last, email, password) => {
     return db.query(q, params);
 };
 
+// COUNTING
+
 module.exports.dbCounter = () => {
     const counter = `SELECT COUNT(*) FROM signatures`;
     const results = db.query(counter);
     return results;
+};
+
+// FETCHING DATA FROM DATABASE
+
+module.exports.getPassword = (email) => {
+    const q = 
+    `SELECT password, id FROM users
+    WHERE email=($1)`;
+    const params = [email];
+
+    return db.query(q, params);
+};
+
+module.exports.getSigner = () => {
+    return db.query(`SELECT * FROM signatures`);
+};
+
+module.exports.didSign = (first, last) => {
+    const q =
+    `SELECT COUNT(*) FROM signatures WHERE first = ($1), last = ($2)`;
+    const params = [first, last];
+
+    db.query(q, params);
 };

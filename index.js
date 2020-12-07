@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const hb = require("express-handlebars");
 const csurf = require("csurf");
-const { getSigner, addSigner, dbCounter, addSignUp } = require("./db.js");
+const { getSigner, addSigner, dbCounter, addSignUp, getPassword } = require("./db.js");
 const secrets = require("./secrets");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc.js");
@@ -136,6 +136,16 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
     console.log(req.body);
+    const { email, password } = req.body;
+    getPassword(email).then(({ rows }) => {
+        const hash = rows[0].password;
+        compare(password, hash).then((booleanResult) => {
+            if (booleanResult) {
+                req.session.userId = rows[0].id;
+                console.log(req.session);
+            }
+        });
+    });
 });
 
 app.get("*", (req, res) => {
