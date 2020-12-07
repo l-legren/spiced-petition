@@ -100,8 +100,10 @@ app.get("/petition/signed", (req, res) => {
 
 
 app.get("/register", (req, res) => {
+    let errorSigning = req.session.error;
     res.render("register", {
         layout: "main",
+        errorSigning
     });
 });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
@@ -111,12 +113,18 @@ app.post("/register", (req, res) => {
     hash(password).then((hash)=> {
         // console.log(hash);
         return addSignUp(first, last, email, hash)
-            .then(
-                (result) => {
-                    // console.log(result);
-                    res.redirect("/petition");
+            .then(({ rows }) => {
+                req.session.userId = rows[0].id;
+                if (req.session.error) {
+                    req.session.error = null;
                 }
-            ).catch((err) => console.log(err));
+                res.redirect("/petition");
+            })
+            .catch(({ detail }) => {
+                console.log(detail);
+                req.session.error = detail;
+                res.redirect("/register");
+            });
     }).catch(err => console.log(err));
 });
 
