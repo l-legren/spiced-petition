@@ -153,13 +153,12 @@ app.post("/login", (req, res) => {
                 if (booleanResult) {
                     req.session.loggingError = null;
                     req.session.userId = rows[0].id;
-                    console.log(req.session);
                     // CHECK IF USER HAVE ALREADY SIGNED!!! if so redirect to THANKS, otherwise to PETITION
-                    didSigned(req.session.userId).then(({ rows }) => {
-                        console.log(rows);
-                        if (rows[0].signature) {
+                    didSigned(req.session.userId).then(({ rowCount }) => {
+                        if (rowCount == 1) {
                             res.redirect("thanks");
-                        } else {
+                        } 
+                        if (rowCount == 0) {
                             res.redirect("/petition");
                         }
                     });
