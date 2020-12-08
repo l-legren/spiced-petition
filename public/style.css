@@ -8,6 +8,7 @@
 }
 
 header {
+    height: 150px;
     position: relative;
     width: 100%;
 }
@@ -20,6 +21,7 @@ header {
     top: 150px;
 }
 body {
+    height: 900px;
     position: relative;
     width: 100%;
     /* display:grid; */
@@ -36,6 +38,7 @@ body {
 }
 
 footer {
+    height: 100px;
     position: relative;
     width: 100%;
 }

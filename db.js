@@ -50,3 +50,11 @@ module.exports.getPassword = (email) => {
 module.exports.getSigner = () => {
     return db.query(`SELECT * FROM signatures`);
 };
+
+module.exports.didSigned = (userId) => {
+    const q =
+    `SELECT signature FROM signatures WHERE id=$(1)`;
+    const params = [userId];
+
+    return db.query(q, params);
+};

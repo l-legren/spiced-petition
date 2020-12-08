@@ -2,7 +2,14 @@ const express = require("express");
 const app = express();
 const hb = require("express-handlebars");
 const csurf = require("csurf");
-const { getSigner, addSigner, dbCounter, addSignUp, getPassword } = require("./db.js");
+const {
+    addSigner,
+    addSignUp,
+    dbCounter,
+    getPassword,
+    getSigner,
+    didSigned
+} = require("./db.js");
 const secrets = require("./secrets");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc.js");
@@ -129,10 +136,11 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-    let errorLoging = req.session.error;
+    let errorLogging = null;
+    errorLogging = req.session.loggingError;
     res.render("login", {
         layout: "main",
-        errorLoging
+        errorLogging
     });
 });
 
@@ -144,20 +152,17 @@ app.post("/login", (req, res) => {
         compare(password, hash)
             .then((booleanResult) => {
                 if (booleanResult) {
-                    req.session.error = null;
+                    req.session.loggingError = null;
                     req.session.userId = rows[0].id;
                     console.log(req.session);
                     // CHECK IF USER HAVE ALREADY SIGNED!!! if so redirect to THANKS, otherwise to PETITION
                     res.redirect("/petition");
+                } else {
+                    req.session.loggingError = true;
+                    res.redirect("login");
                 }
-            // REVIEW THIS PART. IT'S NOT WORKING!!!!
-            })
-            .catch(({ detail }) => {
-                req.session.error = detail;
-                res.redirect("/login");
             });
-        // REVIEW THIS PART. IT'S NOT WORKING!!!!
-    });
+    }).catch((err) => console.log(err));
 });
 
 app.get("*", (req, res) => {
