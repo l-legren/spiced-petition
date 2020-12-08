@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-    res.redirect("/petition");
+    res.redirect("/register");
 });
 
 app.get("/petition", (req, res) =>  {
@@ -61,18 +61,17 @@ app.get("/petition", (req, res) =>  {
 });
 
 app.post("/petition", (req, res) => {
-    // console.log("POST request was made!");
     // console.log("req.body: ", req.body);
-    const { first, last, signature } = req.body;
-    addSigner(first, last, signature).then(({ rows }) =>{
-        req.session.id = rows[0].signature_user;
+    const { signature } = req.body;
+    addSigner(signature, req.session.userId).then(({ rows }) =>{
+        req.session.signature = rows[0].signature;
         res.redirect("/thanks");
-    }).catch((err) => console.error("error in addSinger: ", err));
+    }).catch((err) => console.error("error in addSigner: ", err));
 });
 
 app.get("/thanks", (req, res) => {
     // console.log("Thanks for signing!");
-    const sign = req.session.id;
+    const sign = req.session.signature;
     dbCounter()
         .then(({ rows }) => {
             res.render("thanks", {
@@ -156,7 +155,14 @@ app.post("/login", (req, res) => {
                     req.session.userId = rows[0].id;
                     console.log(req.session);
                     // CHECK IF USER HAVE ALREADY SIGNED!!! if so redirect to THANKS, otherwise to PETITION
-                    res.redirect("/petition");
+                    didSigned(req.session.userId).then(({ rows }) => {
+                        console.log(rows);
+                        if (rows[0].signature) {
+                            res.redirect("thanks");
+                        } else {
+                            res.redirect("/petition");
+                        }
+                    });
                 } else {
                     req.session.loggingError = true;
                     res.redirect("login");

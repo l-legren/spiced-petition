@@ -8,12 +8,12 @@ const db = spicedPg
 
 // INSERTING INTO DATABASE
 
-module.exports.addSigner = (first, last, signature) => {
+module.exports.addSigner = (signature, userId) => {
     const q = 
-    `INSERT INTO signatures (first_name, last_name, signature_user) 
-    VALUES ($1, $2, $3)
-    RETURNING signature_user`;
-    const params = [first, last, signature];
+    `INSERT INTO signatures (signature, user_id) 
+    VALUES ($1, $2)
+    RETURNING signature`;
+    const params = [signature, userId];
     
     return db.query(q, params);
 };
@@ -53,7 +53,7 @@ module.exports.getSigner = () => {
 
 module.exports.didSigned = (userId) => {
     const q =
-    `SELECT signature FROM signatures WHERE id=$(1)`;
+    `SELECT signature FROM signatures WHERE user_id=($1)`;
     const params = [userId];
 
     return db.query(q, params);
