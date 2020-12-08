@@ -137,12 +137,41 @@ button {
 }
 
 .login #email, #password {
-    width: 150px;
-    height: 35px;
+    width: 200px;
+    height: 50px;
     font-size: 30px;
 }
 
 #submit-login {
+    background-color: pink;
+    color: blue
+}
+
+/* USER PROFILE */
+
+#user-profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#user-profile-form {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+}
+
+#user-profile-form h2{
+    margin: 0;
+}
+
+input .user-profile {
+    width: 200px;
+    height: 50px;
+    font-size: 30px;
+}
+
+#submit-profile {
     background-color: pink;
     color: blue
 }

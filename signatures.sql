@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS signatures;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_profiles;
 
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
@@ -17,3 +18,10 @@ CREATE TABLE signatures(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
  );
 
+CREATE TABLE user_profiles(
+    id SERIAL PRIMARY KEY,
+    age INT,
+    city VARCHAR(255),
+    url VARCHAR(255) CHECK (SUBSTRING(url,1,7) = 'http://' OR SUBSTRING(url,1,8) = 'https://'),
+    user_id INT NOT NULL REFERENCES users(id)
+);

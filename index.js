@@ -8,7 +8,8 @@ const {
     dbCounter,
     getPassword,
     getSigner,
-    didSigned
+    didSigned,
+    addProfile
 } = require("./db.js");
 const secrets = require("./secrets");
 const cookieSession = require("cookie-session");
@@ -91,13 +92,19 @@ app.get("/petition/signed", (req, res) => {
         .then(({rows}) => {
             for (let i = 0; i < rows.length; i++) {
                 signers.push(
-                    `${i}. ${rows[i].first_name} ${rows[i].last_name} ${rows[i].signature_user}`
+                    `${i+1}. ${rows[i].first} ${rows[i].last} ${rows[i].age} ${rows[i].city}`
                 );
-                // console.log(signers);
+                if (rows[i].url) {
+                    var personalPage = true;
+                } else {
+                    personalPage = false;
+                }
+                console.log(signers);
             }
             res.render("signers", {
                 layout: "main",
-                signers
+                signers,
+                personalPage
             });
         })
         .catch((err) => console.error(err));
@@ -124,7 +131,7 @@ app.post("/register", (req, res) => {
                 if (req.session.error) {
                     req.session.error = null;
                 }
-                res.redirect("/petition");
+                res.redirect("/profile");
             })
             .catch(({ detail }) => {
                 console.log(detail);
@@ -144,7 +151,6 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    console.log(req.body);
     const { email, password } = req.body;
     getPassword(email).then(({ rows }) => {
         const hash = rows[0].password;
@@ -169,6 +175,22 @@ app.post("/login", (req, res) => {
             });
     }).catch((err) => console.log(err));
 });
+
+app.get("/profile", (req, res) => {
+    res.render("user_profile", {
+        layout: "main"
+    });
+});
+
+app.post("/profile", (req, res) => {
+    const { age, city, personalPage } = req.body;
+    addProfile(age, city, personalPage, req.session.userId)
+        .then(() => {
+            // console.log(result);
+            res.redirect("/petition");
+        }).catch((err) => console.log(err));
+});
+
 
 app.get("*", (req, res) => {
     res.redirect("/");

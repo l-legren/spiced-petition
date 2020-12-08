@@ -28,6 +28,15 @@ module.exports.addSignUp = (first, last, email, password) => {
     return db.query(q, params);
 };
 
+module.exports.addProfile = (age, city, url, userId) => {
+    const q =
+    `INSERT INTO user_profiles (age, city, url, user_id)
+    VALUES ($1, $2, $3, $4)`;
+    const params = [age, city, url, userId];
+
+    return db.query(q, params);
+};
+
 // COUNTING
 
 module.exports.dbCounter = () => {
@@ -48,7 +57,12 @@ module.exports.getPassword = (email) => {
 };
 
 module.exports.getSigner = () => {
-    return db.query(`SELECT * FROM signatures`);
+    const q = `SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.url 
+    FROM users 
+    LEFT JOIN user_profiles 
+    ON users.id = user_profiles.user_id;`;
+
+    return db.query(q);
 };
 
 module.exports.didSigned = (userId) => {
