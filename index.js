@@ -11,7 +11,7 @@ const {
     didSigned,
     addProfile,
 } = require("./db.js");
-const secrets = require("./secrets");
+const secrets = require("./secrets.json");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc.js");
 
