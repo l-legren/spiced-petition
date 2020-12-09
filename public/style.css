@@ -44,6 +44,43 @@ footer {
     bottom: 0px;
 }
 
+/* GENERAL SETTINGS */
+
+form {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+form input {
+    width: 200px;
+    height: 50px;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+form h2 {
+    font-size: 40px;
+    text-decoration: underline;
+}
+
+form h3 {
+    margin: 0;
+}
+
+button {
+    width: 120px;
+    height: 35px;
+    background: white;
+    color: black;
+    border: solid black 3px;
+    font-size: 25px;
+    font-weight: 900;
+    margin-top: 25px;
+}
+
 /* PETITION PAGE */
 
 #petition-image {
@@ -62,32 +99,7 @@ footer {
     grid-column: 2 / span 3;
 }
 
-#signature-form {
-    grid-row: 4 / 5;
-    grid-column: 2 / 5;
-    display: flex;
-}
 
-button {
-    width: 100px;
-    height: 30px;
-    background: pink;
-    color: blue;
-}
-
-/* #first, #last {
-    width: 150px;
-    height: 50px;
-    margin-bottom: 15px;
-    font-size: 25px;
-} */
-
-/* #input-and-button {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    grid-column: 2;
-} */
 
 #canvas-container {
     grid-row: 3;
@@ -174,4 +186,17 @@ input .user-profile {
 #submit-profile {
     background-color: pink;
     color: blue
+}
+
+/* SIGNED */
+
+#signed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#signed li {
+    font-size: 40px;
 }

@@ -1,0 +1,23 @@
+<div class="container" id="edit-profile">
+    <form method="post">
+        {{#rows}}
+        <h2>EDIT HERE YOUR PROFILE</h2>
+        <h3>First Name</h3>
+        <input name="first" type="text" class="editing" value="{{first}}">
+        <h3>Last Name</h3>
+        <input name="last" type="text" class="editing" value="{{last}}">
+        <h3>E-mail</h3>
+        <input name="email" type="text" class="editing" value="{{age}}">
+        <h3>Password</h3>
+        <input name="password" type="password" class="editing" placeholder="New Password">
+        <h3>Age</h3>
+        <input name="age" type="text" class="editing" value="{{age}}">
+        <h3>City</h3>
+        <input name="city" type="text" class="editing" value="{{makeCityCapital city}}">
+        <h3>Personal Website</h3>
+        <input name="website" type="url" class="editing" value="{{url}}">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <button type="submit">EDIT PROFILE</button>
+        {{/rows}}
+    </form>
+</div>

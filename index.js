@@ -7,7 +7,9 @@ const {
     addSignUp,
     dbCounter,
     getPassword,
-    getSigner,
+    getSigners,
+    getSignersByCity,
+    getSignerById,
     didSigned,
     addProfile,
 } = require("./db.js");
@@ -89,15 +91,35 @@ app.get("/thanks", (req, res) => {
 });
 
 app.get("/petition/signed", (req, res) => {
-    getSigner()
+    getSigners()
         .then(({ rows }) => {
-            console.log(rows);
+            // console.log(rows);
             res.render("signers", {
                 layout: "main",
                 rows
             });
         })
         .catch((err) => console.error(err));
+});
+
+app.get("/petition/signed/:city", (req, res) => {
+    const { city } = req.params;
+    const cityLower = city.toLowerCase();
+    getSigners()
+        .then(({ rows }) => {
+            // console.log(rows.length);
+            for (let i = 0; i < rows.length; i ++) {
+                if (rows[i].city == cityLower) {
+                    getSignersByCity(cityLower).then(({ rows }) => {
+                        // console.log(rows);
+                        res.render("signers", {
+                            layout: "main",
+                            rows,
+                        });
+                    });
+                }
+            }
+        });
 });
 
 app.get("/register", (req, res) => {
@@ -180,10 +202,35 @@ app.post("/profile", (req, res) => {
         .catch((err) => console.log(err));
 });
 
+app.get("/edit", (req, res) => {
+    getSignerById(req.session.userId)
+        .then(({ rows }) => {
+            console.log(rows);
+            res.render("edit", {
+                layout: "main",
+                rows,
+                helpers:  {
+                    makeCityCapital(city) {
+                        let cityCap = city.charAt(0).toUpperCase() + city.slice(1);
+                        return cityCap;
+                    }
+                }
+            });
+        });
+});
+
+// CONTINUAR AQUÍ Y LA QUERY!!!!
+
+app.post("/edit", (req, res) => {
+    console.log(req.body);
+    const { first, last, email, password, city, age, website } = req.body;
+
+});
+
 app.get("*", (req, res) => {
     res.redirect("/");
 });
 
 app.listen(process.env.PORT || 8080, () =>
-    console.log("Server listening on 8080...")
+    console.log("Server running on port 8080")
 );

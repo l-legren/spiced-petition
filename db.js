@@ -32,7 +32,7 @@ module.exports.addSignUp = (first, last, email, password) => {
 module.exports.addProfile = (age, city, url, userId) => {
     const q =
     `INSERT INTO user_profiles (age, city, url, user_id)
-    VALUES ($1, $2, $3, $4)`;
+    VALUES ($1, LOWER ($2), $3, $4)`;
     const params = [age, city, url, userId];
 
     return db.query(q, params);
@@ -57,7 +57,7 @@ module.exports.getPassword = (email) => {
     return db.query(q, params);
 };
 
-module.exports.getSigner = () => {
+module.exports.getSigners = () => {
     const q = `SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.url 
     FROM users 
     LEFT JOIN user_profiles 
@@ -66,10 +66,43 @@ module.exports.getSigner = () => {
     return db.query(q);
 };
 
+module.exports.getSignerById = (userId) => {
+    const q = `SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.url 
+    FROM users 
+    LEFT JOIN user_profiles 
+    ON users.id = user_profiles.user_id
+    WHERE users.id = ($1)`;
+    const params = [userId];
+
+    return db.query(q, params);  
+};
+
+module.exports.getSignersByCity = (city) => {
+    const q = 
+    `SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.url 
+    FROM users 
+    LEFT JOIN user_profiles 
+    ON users.id = user_profiles.user_id
+    WHERE user_profiles.city = ($1)`;
+    const params = [city];
+
+    return db.query(q, params);
+};
+
 module.exports.didSigned = (userId) => {
     const q =
     `SELECT signature FROM signatures WHERE user_id=($1)`;
     const params = [userId];
 
     return db.query(q, params);
+};
+
+/* UPSERTING QUERYS */
+
+module.exports.editProfileNewPw = (first, last, email, password ) => {
+    const q =
+    `INSERT INTO users 
+    VALUES (first, last, email, password)
+    ON CONFLICT ()
+    DO UPDATE SET`;
 };
