@@ -1,7 +1,9 @@
 <div class="container" id="signed">
     <h1>THESE ARE THE BRAVE WHO SIGNED!!</h1>
     <p>Occupy ullamco vape, street art tumblr ethical hoodie unicorn bespoke deep v taiyaki craft beer shaman +1 tempor.</p>
-    {{#signers}}
-    <h3>{{.}}</h3>
-    {{/signers}}
+    {{#rows}}
+    <h3>
+        <a href="{{url}}">{{first}} {{last}}</a> {{age}} {{city}}
+    </h3>
+    {{/rows}}
 </div>

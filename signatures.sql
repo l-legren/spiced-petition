@@ -22,6 +22,7 @@ CREATE TABLE user_profiles(
     id SERIAL PRIMARY KEY,
     age INT,
     city VARCHAR(255),
-    url VARCHAR(255) CHECK (SUBSTRING(url,1,7) = 'http://' OR SUBSTRING(url,1,8) = 'https://'),
+    url VARCHAR(255), 
+    -- check not working CHECK (SUBSTRING(url,1,7) = 'http://' OR SUBSTRING(url,1,8) = 'https://' ),
     user_id INT NOT NULL REFERENCES users(id)
 );
