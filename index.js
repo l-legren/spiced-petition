@@ -11,7 +11,9 @@ const {
     didSigned,
     addProfile,
 } = require("./db.js");
-const secrets = require("./secrets.json");
+process.env.NODE_ENV === "production"
+    ? (secrets = process.env)
+    : (secrets = require("./secrets"));
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc.js");
 
@@ -89,6 +91,7 @@ app.get("/thanks", (req, res) => {
 app.get("/petition/signed", (req, res) => {
     getSigner()
         .then(({ rows }) => {
+            console.log(rows);
             res.render("signers", {
                 layout: "main",
                 rows
