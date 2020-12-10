@@ -114,6 +114,18 @@ module.exports.editProfileUsersPw = (first, last, email, password, userId) => {
     return db.query(q, params);
 };
 
+module.exports.editProfileUsersNoPw = (first, last, email, userId) => {
+    const q = 
+    `UPDATE users 
+    SET first = $1,
+        last = $2,
+        email = $3
+        WHERE id = $4`;
+    const params = [first, last, email, userId];
+
+    return db.query(q, params);
+};
+
 /* UPSERTING QUERYS */
 
 module.exports.upsertingPw = (city, age, url, userId) => {
@@ -121,8 +133,8 @@ module.exports.upsertingPw = (city, age, url, userId) => {
     `INSERT INTO user_profiles (city, age, url, user_id)
     VALUES ($1, $2, $3, $4)
     ON CONFLICT (user_id)
-    DO UPDATE SET city = $1, age = $2, url = $3, user_id=$4`;
-    const params = [city || null, age || null, url || null, userId];
+    DO UPDATE SET city = $1, age = $2, url = $3, user_id = $4`;
+    const params = [city, age, url, userId];
 
     return db.query(q, params);
 };

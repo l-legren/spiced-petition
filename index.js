@@ -14,6 +14,7 @@ const {
     didSigned,
     addProfile,
     editProfileUsersPw,
+    editProfileUsersNoPw,
     upsertingPw
 } = require("./db.js");
 process.env.NODE_ENV === "production"
@@ -223,37 +224,35 @@ app.get("/edit", (req, res) => {
         });
 });
 
-// CONTINUAR AQUÍ Y LA QUERY!!!!
-
 app.post("/edit", (req, res) => {
     const { first, last, email, password, city, age, website } = req.body;
-    // console.log(req.session.userId);
     if (password) {
-        hash(password)
-            .then((hash) => {
-                return editProfileUsersPw(
-                    first,
-                    last,
-                    email,
-                    hash,
-                    req.session.userId
-                )
-                    .then(() => {
-                        upsertingPw(
-                            city,
-                            age,
-                            website,
-                            req.session.userId
-                        ).then(() => {
+        hash(password).then((hash) => {
+            console.log("hash produced");
+            editProfileUsersPw(first, last, email, hash, req.session.userId)
+                .then(() => {
+                    // when password is not entered not working
+                    upsertingPw(city, age, website, req.session.userId)
+                        .then(() => {
+                            console.log("table upserted");
                             res.redirect("/thanks");
-                        });
+                        })
+                        .catch((err) => console.log("error upsertin", err));
+                }).catch(err => console.log("error editing", err));
+        }).catch(err => console.log("error in hash", err));
+    } else {
+        editProfileUsersNoPw(first, last, email, req.session.userId)
+            .then(() => {
+                upsertingPw(city, age, website, req.session.userId)
+                    .then(() => {
+                        res.redirect("/thanks");
                     })
-                    .catch((err) => console.log("error upserting", err));
+                    .catch((err) => console.log("error upsertin7g", err));
             })
-            .catch((err) => console.log("error upserting", err));
+            .catch((err) => console.log("error updating", err));
     }
-
 });
+
 
 app.get("*", (req, res) => {
     res.redirect("/");
