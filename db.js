@@ -58,7 +58,8 @@ module.exports.getPassword = (email) => {
 };
 
 module.exports.getSigners = () => {
-    const q = `SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.url 
+    const q = 
+    `SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.url 
     FROM users 
     LEFT JOIN user_profiles 
     ON users.id = user_profiles.user_id;`;
@@ -67,7 +68,8 @@ module.exports.getSigners = () => {
 };
 
 module.exports.getSignerById = (userId) => {
-    const q = `SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.url 
+    const q = 
+    `SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.url 
     FROM users 
     LEFT JOIN user_profiles 
     ON users.id = user_profiles.user_id
@@ -97,12 +99,30 @@ module.exports.didSigned = (userId) => {
     return db.query(q, params);
 };
 
+/* UPDATING QUERYS */
+
+module.exports.editProfileUsersPw = (first, last, email, password, userId) => {
+    const q = 
+    `UPDATE users 
+    SET first = $1,
+        last = $2,
+        email = $3,
+        password = $4
+        WHERE id = $5`;
+    const params = [first, last, email, password, userId];
+
+    return db.query(q, params);
+};
+
 /* UPSERTING QUERYS */
 
-module.exports.editProfileNewPw = (first, last, email, password ) => {
+module.exports.upsertingPw = (city, age, url, userId) => {
     const q =
-    `INSERT INTO users 
-    VALUES (first, last, email, password)
-    ON CONFLICT ()
-    DO UPDATE SET`;
+    `INSERT INTO user_profiles (city, age, url, user_id)
+    VALUES ($1, $2, $3, $4)
+    ON CONFLICT (user_id)
+    DO UPDATE SET city = $1, age = $2, url = $3, user_id=$4`;
+    const params = [city || null, age || null, url || null, userId];
+
+    return db.query(q, params);
 };

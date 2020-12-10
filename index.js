@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+exports.app = app;
 const hb = require("express-handlebars");
 const csurf = require("csurf");
 const {
@@ -12,6 +13,8 @@ const {
     getSignerById,
     didSigned,
     addProfile,
+    editProfileUsersPw,
+    upsertingPw
 } = require("./db.js");
 process.env.NODE_ENV === "production"
     ? (secrets = process.env)
@@ -203,9 +206,10 @@ app.post("/profile", (req, res) => {
 });
 
 app.get("/edit", (req, res) => {
+    // console.log(req.session.userId);
     getSignerById(req.session.userId)
         .then(({ rows }) => {
-            console.log(rows);
+            // console.log(rows);
             res.render("edit", {
                 layout: "main",
                 rows,
@@ -222,8 +226,32 @@ app.get("/edit", (req, res) => {
 // CONTINUAR AQUÍ Y LA QUERY!!!!
 
 app.post("/edit", (req, res) => {
-    console.log(req.body);
     const { first, last, email, password, city, age, website } = req.body;
+    // console.log(req.session.userId);
+    if (password) {
+        hash(password)
+            .then((hash) => {
+                return editProfileUsersPw(
+                    first,
+                    last,
+                    email,
+                    hash,
+                    req.session.userId
+                )
+                    .then(() => {
+                        upsertingPw(
+                            city,
+                            age,
+                            website,
+                            req.session.userId
+                        ).then(() => {
+                            res.redirect("/thanks");
+                        });
+                    })
+                    .catch((err) => console.log("error upserting", err));
+            })
+            .catch((err) => console.log("error upserting", err));
+    }
 
 });
 
@@ -231,6 +259,8 @@ app.get("*", (req, res) => {
     res.redirect("/");
 });
 
-app.listen(process.env.PORT || 8080, () =>
-    console.log("Server running on port 8080")
-);
+if (require.main == module) {
+    app.listen(process.env.PORT || 8080, () =>
+        console.log("Server running on port 8080")
+    );
+}

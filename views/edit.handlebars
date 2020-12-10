@@ -13,11 +13,11 @@
         <h3>Age</h3>
         <input name="age" type="text" class="editing" value="{{age}}">
         <h3>City</h3>
-        <input name="city" type="text" class="editing" value="{{makeCityCapital city}}">
+        <input name="city" type="text" class="editing" {{#if city}}value="{{makeCityCapital city}}"{{/if}}>
         <h3>Personal Website</h3>
         <input name="website" type="url" class="editing" value="{{url}}">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <button type="submit">EDIT PROFILE</button>
         {{/rows}}
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
     </form>
 </div>
