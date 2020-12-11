@@ -15,7 +15,8 @@ const {
     addProfile,
     editProfileUsersPw,
     editProfileUsersNoPw,
-    upsertingPw
+    upsertingPw,
+    deleteSig,
 } = require("./db.js");
 process.env.NODE_ENV === "production"
     ? (secrets = process.env)
@@ -59,7 +60,13 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-    res.redirect("/register");
+    res.redirect("/welcome");
+});
+
+app.get("/welcome", (req, res) => {
+    res.render("welcome", {
+        layout: "main"
+    });
 });
 
 app.get("/petition", (req, res) => {
@@ -94,13 +101,23 @@ app.get("/thanks", (req, res) => {
         });
 });
 
+app.post("/thanks", (req, res) => {
+    // const { dltButton } = req.body;
+    deleteSig(req.session.userId)
+        .then(() => {
+            req.session.signature = null;
+            res.redirect("/petition");
+        })
+        .catch((err) => console.log("Error deleting Signature", err));
+});
+
 app.get("/petition/signed", (req, res) => {
     getSigners()
         .then(({ rows }) => {
             // console.log(rows);
             res.render("signers", {
                 layout: "main",
-                rows
+                rows,
             });
         })
         .catch((err) => console.error(err));
@@ -109,21 +126,20 @@ app.get("/petition/signed", (req, res) => {
 app.get("/petition/signed/:city", (req, res) => {
     const { city } = req.params;
     const cityLower = city.toLowerCase();
-    getSigners()
-        .then(({ rows }) => {
-            // console.log(rows.length);
-            for (let i = 0; i < rows.length; i ++) {
-                if (rows[i].city == cityLower) {
-                    getSignersByCity(cityLower).then(({ rows }) => {
-                        // console.log(rows);
-                        res.render("signers", {
-                            layout: "main",
-                            rows,
-                        });
+    getSigners().then(({ rows }) => {
+        // console.log(rows.length);
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i].city == cityLower) {
+                getSignersByCity(cityLower).then(({ rows }) => {
+                    // console.log(rows);
+                    res.render("signers", {
+                        layout: "main",
+                        rows,
                     });
-                }
+                });
             }
-        });
+        }
+    });
 });
 
 app.get("/register", (req, res) => {
@@ -208,38 +224,40 @@ app.post("/profile", (req, res) => {
 
 app.get("/edit", (req, res) => {
     // console.log(req.session.userId);
-    getSignerById(req.session.userId)
-        .then(({ rows }) => {
-            // console.log(rows);
-            res.render("edit", {
-                layout: "main",
-                rows,
-                helpers:  {
-                    makeCityCapital(city) {
-                        let cityCap = city.charAt(0).toUpperCase() + city.slice(1);
-                        return cityCap;
-                    }
-                }
-            });
+    getSignerById(req.session.userId).then(({ rows }) => {
+        // console.log(rows);
+        res.render("edit", {
+            layout: "main",
+            rows,
+            helpers: {
+                makeCityCapital(city) {
+                    let cityCap = city.charAt(0).toUpperCase() + city.slice(1);
+                    return cityCap;
+                },
+            },
         });
+    });
 });
 
 app.post("/edit", (req, res) => {
     const { first, last, email, password, city, age, website } = req.body;
     if (password) {
-        hash(password).then((hash) => {
-            console.log("hash produced");
-            editProfileUsersPw(first, last, email, hash, req.session.userId)
-                .then(() => {
-                    // when password is not entered not working
-                    upsertingPw(city, age, website, req.session.userId)
-                        .then(() => {
-                            console.log("table upserted");
-                            res.redirect("/thanks");
-                        })
-                        .catch((err) => console.log("error upsertin", err));
-                }).catch(err => console.log("error editing", err));
-        }).catch(err => console.log("error in hash", err));
+        hash(password)
+            .then((hash) => {
+                console.log("hash produced");
+                editProfileUsersPw(first, last, email, hash, req.session.userId)
+                    .then(() => {
+                        // when password is not entered not working
+                        upsertingPw(city, age, website, req.session.userId)
+                            .then(() => {
+                                console.log("table upserted");
+                                res.redirect("/thanks");
+                            })
+                            .catch((err) => console.log("error upsertin", err));
+                    })
+                    .catch((err) => console.log("error editing", err));
+            })
+            .catch((err) => console.log("error in hash", err));
     } else {
         editProfileUsersNoPw(first, last, email, req.session.userId)
             .then(() => {
@@ -247,12 +265,11 @@ app.post("/edit", (req, res) => {
                     .then(() => {
                         res.redirect("/thanks");
                     })
-                    .catch((err) => console.log("error upsertin7g", err));
+                    .catch((err) => console.log("error upserting", err));
             })
             .catch((err) => console.log("error updating", err));
     }
 });
-
 
 app.get("*", (req, res) => {
     res.redirect("/");

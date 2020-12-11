@@ -1,11 +1,10 @@
-<div class="container" id="login-container">
-    <form id="login-form" method="post">
-        <input type="email" class="login" name="email">
-        <input type="password" class="login" name="password">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button id="submit-login" type="submit">LOG IN</button>
-    </form>
-    {{#if errorLogging}}
-    <p id="fail-sign-up" style="color: red">Mail address and password don't seem to match, please try again.</p>
-    {{/if}}
-</div>
+<form id="login-form" method="post">
+    <h2>Enter here your Email and your Password!</h2>
+    <input type="email" class="login" name="email">
+    <input type="password" class="login" name="password">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <button id="submit-login" type="submit">LOG IN</button>
+</form>
+{{#if errorLogging}}
+<p id="fail-sign-up" style="color: red">Mail address and password don't seem to match, please try again.</p>
+{{/if}}

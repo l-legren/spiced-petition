@@ -1,14 +1,13 @@
-<div class="container" id="register-container">
-    <form id="register-form" method="post">
-        <input type="text" class="registering" name="first">
-        <input type="text" class="registering" name="last">
-        <input type="email" class="registering" name="email">
-        <input type="password" class="registering" name="password">
-        <button id="submit-register" type="submit">SIGN UP</button>
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    </form>
-    <p id="already-member">If you are already registered please <a href="./login">log in</a>.</p>
-    {{#if errorSigning}}
-    <p id="fail-sign-up" style="color: red">Failing to sign up. Please check all the fields above</p>
-    {{/if}}
-</div>
+<form id="register-form" method="post">
+    <h2>Please register to sign the petition</h2>
+    <input type="text" class="registering" name="first">
+    <input type="text" class="registering" name="last">
+    <input type="email" class="registering" name="email">
+    <input type="password" class="registering" name="password">
+    <button id="submit-register" type="submit">SIGN UP</button>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+</form>
+<p id="already-member">If you are already registered please <a href="./login">log in</a>.</p>
+{{#if errorSigning}}
+<p id="fail-sign-up" style="color: red">Failing to sign up. Please check all the fields above</p>
+{{/if}}

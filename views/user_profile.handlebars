@@ -1,13 +1,11 @@
-<div class="container" id="user-profile-container">
-    <h2 style="font-size: 40px; text-decoration: underline">WHAT ABOUT YOURSELF?</h2>
-    <form id="user-profile-form" method="post">
-        <h2>Which city??</h2>
-        <input type="text" class="user-profile" name="city">
-        <h2>How old are you??</h2>
-        <input type="text" class="user-profile" name="age">
-        <h2>Personal website?</h2>
-        <input type="text" class="user-profile" name="personalPage">
-        <button id="submit-profile" type="submit">CONTINUE</button>
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    </form>
-</div>
+<h2 style="font-size: 40px; text-decoration: underline">WHAT ABOUT YOURSELF?</h2>
+<form id="user-profile-form" method="post">
+    <h2>Which city??</h2>
+    <input type="text" class="user-profile" name="city">
+    <h2>How old are you??</h2>
+    <input type="text" class="user-profile" name="age">
+    <h2>Personal website?</h2>
+    <input type="text" class="user-profile" name="personalPage">
+    <button id="submit-profile" type="submit">CONTINUE</button>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+</form>

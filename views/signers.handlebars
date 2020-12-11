@@ -1,16 +1,15 @@
-<div class="container" id="signed">
-    <h1>THESE ARE THE BRAVE WHO SIGNED!!</h1>
-    <p>Occupy ullamco vape, street art tumblr ethical hoodie unicorn bespoke deep v taiyaki craft beer shaman +1 tempor.</p>
-    <ul>
-        {{#rows}}
-        <li>
-            {{#if url}}
-                <a href="{{url}}">{{first}} {{last}}</a>
-            {{else}} 
-                {{first}} {{last}}
-            {{/if}} 
-                {{age}} <a href="/petition/signed/{{city}}">{{city}}</a>
-        </li>
-        {{/rows}}
-    </ul>
-</div>
+<h1>THESE ARE THE BRAVE WHO SIGNED!!</h1>
+<img src="/images/toilet.png" alt="A random image" id="petition-image"></img>
+<p>Occupy ullamco vape, street art tumblr ethical hoodie unicorn bespoke deep v taiyaki craft beer shaman +1 tempor.</p>
+<ul>
+    {{#rows}}
+    <li>
+        {{#if url}}
+            <a href="{{url}}">{{first}} {{last}}</a>
+        {{else}} 
+            {{first}} {{last}}
+        {{/if}} 
+            {{age}} <a href="/petition/signed/{{city}}">{{city}}</a>
+    </li>
+    {{/rows}}
+</ul>
