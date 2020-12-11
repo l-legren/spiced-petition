@@ -1,10 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 * { 
     margin: 5;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Amatic SC", cursive;
+    /* font-family: "Amatic SC", cursive; */
+    font-family: 'Roboto', sans-serif;
+
+    text-align: center;
 }
 
 header {
@@ -18,8 +23,16 @@ header {
     justify-content: center;
 }
 
+header h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: 45px;
+    font-weight: 900;
+    margin-bottom: 0;
+}
+
 header p {
-    font-size: 25px;
+    font-size: 20px;
+    margin-top: 0;
 }
 
 #divisory-above {
@@ -40,11 +53,11 @@ body {
 
 .wrapper {
     position: relative;
+    flex-grow: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 20px;
 }
 
 #divisory-below {
@@ -55,7 +68,7 @@ body {
 }
 
 footer {
-    height: 100px;
+    height: 70px;
     width: 100%;
     position: relative;
     display: flex;
@@ -64,6 +77,14 @@ footer {
 }
 
 /* GENERAL SETTINGS */
+
+p {
+    font-size: 20px;
+}
+
+a {
+    font-size: 40px;
+}
 
 form {
     display: flex;
