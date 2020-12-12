@@ -1,16 +1,24 @@
 <h1>YOU ARE NOT ALONE!!!</h1>
 <img src="/images/toilet.png" alt="A random image" id="petition-image"></img>
 <h2>These are the brave who signed</h2>
-<p>Names here could be fictive. But feel free to contact them and meet them at the Supermarket</p>
+<p>Names here could be fictive. But feel free to contact them and meet them at your nearest Supermarket</p>
 <ul>
     {{#rows}}
     <li>
-        {{#if url}}
-            <a href="{{url}}">{{first}} {{last}}</a>
-        {{else}} 
-            {{first}} {{last}}
-        {{/if}} 
-            {{age}} <a href="/petition/signed/{{city}}">{{city}}</a>
+        <div class="li-container">
+            <img src="/images/toil1.png" alt="toilet paper">
+            {{#if url}}
+                <a href="{{url}}">{{makeStringCapital first}} {{makeStringCapital last}}</a>
+            {{else}} 
+                {{makeStringCapital first}} {{makeStringCapital last}}
+            {{/if}} 
+            {{#if city}}
+                <span>{{age}}</span><a href="/petition/signed/{{city}}">  {{makeStringCapital city}}</a>
+            {{/if}}
+        </div>
     </li>
     {{/rows}}
+<div class="edit-profile">
+    <a href="./edit">edit profile...</a>
+</div>
 </ul>

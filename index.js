@@ -23,6 +23,7 @@ process.env.NODE_ENV === "production"
     : (secrets = require("./secrets"));
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc.js");
+const { makeStringCapital } = require("./helpers.js");
 
 // this configures express to use express-handlebars as the template engine
 app.engine("handlebars", hb());
@@ -118,6 +119,9 @@ app.get("/petition/signed", (req, res) => {
             res.render("signers", {
                 layout: "main",
                 rows,
+                helpers: {
+                    makeStringCapital
+                }
             });
         })
         .catch((err) => console.error(err));
@@ -135,6 +139,9 @@ app.get("/petition/signed/:city", (req, res) => {
                     res.render("signers", {
                         layout: "main",
                         rows,
+                        helpers: {
+                            makeStringCapital
+                        },
                     });
                 });
             }
@@ -230,10 +237,7 @@ app.get("/edit", (req, res) => {
             layout: "main",
             rows,
             helpers: {
-                makeCityCapital(city) {
-                    let cityCap = city.charAt(0).toUpperCase() + city.slice(1);
-                    return cityCap;
-                },
+                makeStringCapital
             },
         });
     });

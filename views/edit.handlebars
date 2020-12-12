@@ -12,7 +12,7 @@
     <h3>Age</h3>
     <input name="age" type="text" class="editing" value="{{age}}">
     <h3>City</h3>
-    <input name="city" type="text" class="editing" {{#if city}}value="{{makeCityCapital city}}"{{/if}}>
+    <input name="city" type="text" class="editing" {{#if city}}value="{{makeStringCapital city}}"{{/if}}>
     <h3>Personal Website</h3>
     <input name="website" type="url" class="editing" value="{{url}}">
     <button type="submit">EDIT PROFILE</button>

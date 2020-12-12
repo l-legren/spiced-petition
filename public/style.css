@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 * { 
     margin: 5;
@@ -12,13 +13,18 @@
     text-align: center;
 }
 
+html {
+    height: 100%;
+    width: 100%;
+}
+
 header {
     height: 150px;
     position: relative;
     top: 0px;
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
@@ -31,8 +37,11 @@ header h1 {
 }
 
 header p {
-    font-size: 20px;
+    font-size: 25px;
     margin-top: 0;
+    font-family: 'Great Vibes', cursive;
+    position: relative;
+    left: 95px;
 }
 
 #divisory-above {
@@ -42,8 +51,8 @@ header p {
     position: relative;
 }
 body {
-    height: 100vh;
-    width: 100vw;
+    min-height: 100%;
+    min-width: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -58,6 +67,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 100px;
+    width: 100%;
 }
 
 #divisory-below {
@@ -96,7 +107,7 @@ form {
 }
 
 form input {
-    width: 200px;
+    width: 320px;
     height: 50px;
     font-size: 25px;
     margin-bottom: 10px;
@@ -105,6 +116,7 @@ form input {
 form h2 {
     font-size: 40px;
     text-decoration: underline;
+    font-weight: 900;
 }
 
 form h3 {
@@ -133,6 +145,27 @@ button:hover {
 img {
     width: 400px;
     height: 300px;
+}
+
+.edit-profile a {
+    display: block;
+    width: 180px;
+    height: 40px;
+    background: white;
+    color: black;
+    border: solid black 3px;
+    font-size: 25px;
+    font-weight: 900;
+    margin-top: 25px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.35s;
+    text-decoration: none;
+}
+
+.edit-profile a:hover {
+    background-color: black;
+    color: white;
 }
 
 /* WELCOME */
@@ -167,22 +200,49 @@ canvas {
 #user-profile-form {
     display: flex;
     flex-direction: column;
-    width: 150px;
 }
 
 #user-profile-form h2{
     margin: 0;
-}
-
-input .user-profile {
+    text-decoration: none;
     width: 200px;
-    height: 50px;
-    font-size: 30px;
+    width: 350px;
+    margin-top: 30px;
 }
 
+#input-age {
+    width: 100px;
+}
+
+#submit-profile {
+    width: 185px;
+}
 
 /* SIGNED */
 
+ul {
+    list-style-type: none;
+}
+
 li {
     font-size: 40px;
+    text-align: left;
+    padding: 5px;
+}
+
+span {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.li-container {
+    display: flex;
+}
+
+.li-container img {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    top: 9px;
+    left: -20px;
 }
