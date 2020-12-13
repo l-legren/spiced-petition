@@ -13,12 +13,12 @@ const signing = (e) => {
     ctx.linecap = "round";
     // console.log(canvas.offset().left, canvas.offset().top);
     console.log(
-        e.clientX - canvas.offset().left,
-        e.clientY - canvas.offset().top
+        e.pageX - canvas.offset().left,
+        e.pageY - canvas.offset().top
     );
     ctx.lineTo(
-        e.clientX - canvas.offset().left,
-        e.clientY - canvas.offset().top
+        e.pageX - canvas.offset().left,
+        e.pageY - canvas.offset().top
     );
     ctx.stroke();
     dataURL = canvas[0].toDataURL();

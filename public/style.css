@@ -168,6 +168,11 @@ img {
     color: white;
 }
 
+#to-main {
+    text-decoration: none;
+    color: black;
+}
+
 /* WELCOME */
 
 #welcome-image {

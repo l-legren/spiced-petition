@@ -1,9 +1,9 @@
 <form id="register-form" method="post">
     <h2>Please register to sign the petition</h2>
-    <input type="text" class="registering" name="first">
-    <input type="text" class="registering" name="last">
-    <input type="email" class="registering" name="email">
-    <input type="password" class="registering" name="password">
+    <input type="text" class="registering" name="first" placeholder="First Name">
+    <input type="text" class="registering" name="last" placeholder="Last Name">
+    <input type="email" class="registering" name="email" placeholder="E-Mail">
+    <input type="password" class="registering" name="password" placeholder="Password">
     <button id="submit-register" type="submit">SIGN UP</button>
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
 </form>

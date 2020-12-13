@@ -18,9 +18,10 @@ const {
     upsertingPw,
     deleteSig,
 } = require("./db.js");
-process.env.NODE_ENV === "production"
-    ? (secrets = process.env)
-    : (secrets = require("./secrets"));
+// process.env.NODE_ENV === "production"
+//     ? (secrets = process.env)
+//     : (secrets = require("./secrets"));
+const secrets = require("./secrets");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc.js");
 const { makeStringCapital } = require("./helpers.js");
@@ -193,6 +194,7 @@ app.post("/login", (req, res) => {
         .then(({ rows }) => {
             const hash = rows[0].password;
             compare(password, hash).then((booleanResult) => {
+                console.log(booleanResult);
                 if (booleanResult) {
                     req.session.loggingError = null;
                     req.session.userId = rows[0].id;
@@ -256,20 +258,18 @@ app.post("/edit", (req, res) => {
                             .then(() => {
                                 console.log("table upserted");
                                 res.redirect("/thanks");
-                            })
-                            .catch((err) => console.log("error upsertin", err));
-                    })
-                    .catch((err) => console.log("error editing", err));
+                            });
+                    });
             })
-            .catch((err) => console.log("error in hash", err));
+            .catch((err) => console.log("error", err));
     } else {
+        console.log("no password");
         editProfileUsersNoPw(first, last, email, req.session.userId)
             .then(() => {
                 upsertingPw(city, age, website, req.session.userId)
                     .then(() => {
                         res.redirect("/thanks");
-                    })
-                    .catch((err) => console.log("error upserting", err));
+                    });
             })
             .catch((err) => console.log("error updating", err));
     }
