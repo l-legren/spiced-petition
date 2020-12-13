@@ -18,10 +18,9 @@ const {
     upsertingPw,
     deleteSig,
 } = require("./db.js");
-// process.env.NODE_ENV === "production"
-//     ? (secrets = process.env)
-//     : (secrets = require("./secrets"));
-const secrets = require("./secrets");
+process.env.NODE_ENV === "production"
+    ? (secrets = process.env)
+    : (secrets = require("./secrets"));
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc.js");
 const { makeStringCapital } = require("./helpers.js");
