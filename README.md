@@ -27,10 +27,10 @@ Clone it in your local directory in the terminal run it with `node .`. You will 
 ## Screenshots
 
 ### Homepage
-![Homepage screenshot](https://github.com/l-legren/spiced-petition/blob/leret/public/images/screenshot/homepage.jpg)
+![Homepage screenshot](https://github.com/l-legren/spiced-petition/blob/leret/public/images/screenshots/homepage.jpg)
 
 ### Signature
-![Signature](https://github.com/l-legren/spiced-petition/blob/leret/public/images/screenshot/signature.jpg)
+![Signature](https://github.com/l-legren/spiced-petition/blob/leret/public/images/screenshots/signature.jpg)
 
 ### Signers
-![Signers](https://github.com/l-legren/spiced-petition/blob/leret/public/images/screenshot/signers.jpg)
+![Signers](https://github.com/l-legren/spiced-petition/blob/leret/public/images/screenshots/signers.jpg)
